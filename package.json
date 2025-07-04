@@ -1,0 +1,28 @@
+{
+  "name": "culturasphere",
+  "version": "1.0.0",
+  "description": "A platform that connects people through cultural experiences, tastes, and trends",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "install-all": "npm install && npm run install-server && npm run install-client"
+  },
+  "keywords": [
+    "culture",
+    "food",
+    "trends",
+    "art",
+    "music",
+    "writing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
