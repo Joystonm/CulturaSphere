@@ -1,178 +1,110 @@
 const axios = require('axios');
-const { QLOO_API_KEY } = require('../config/keys');
 
-// Base configuration for Qloo API
+// Initialize Qloo client
 const qlooClient = axios.create({
   baseURL: 'https://api.qloo.com/v1',
   headers: {
-    'Authorization': `Bearer ${QLOO_API_KEY}`,
+    'Authorization': `Bearer ${process.env.QLOO_API_KEY}`,
     'Content-Type': 'application/json'
   }
 });
 
-// Get related tastes from Qloo API for FlavorFusion
-exports.getRelatedTastes = async (tastes) => {
+/**
+ * Get taste recommendations based on user preferences
+ * @param {Array} preferences - User's taste preferences
+ * @param {string} domain - The domain to get recommendations for (e.g., 'cuisine', 'music', 'film')
+ * @returns {Promise<Array>} - Array of recommendations
+ */
+const getRecommendations = async (preferences, domain) => {
   try {
-    console.log('Getting related tastes from Qloo with tastes:', tastes);
+    // In a real implementation, this would call the Qloo API
+    // For now, we'll simulate a response
     
-    // Mock data for now
-    return {
-      destinations: [
-        {
-          title: 'Marrakech, Morocco',
-          description: 'A city of contrasts where ancient traditions meet vibrant contemporary culture, with architecture that inspired Inception.',
-          tags: ['Cultural', 'Atmospheric', 'Photogenic']
-        },
-        {
-          title: 'Tokyo, Japan',
-          description: 'Futuristic cityscape with neon-lit streets and hidden traditional corners, perfect for cyberpunk enthusiasts.',
-          tags: ['Futuristic', 'Vibrant', 'Contrasting']
-        }
+    // Sample recommendations by domain
+    const recommendationsByDomain = {
+      cuisine: [
+        { name: 'Thai', confidence: 0.89 },
+        { name: 'Lebanese', confidence: 0.82 },
+        { name: 'Spanish', confidence: 0.78 }
       ],
-      restaurants: [
-        {
-          title: 'The Blind Pig',
-          description: 'Speakeasy-style restaurant with literary-themed cocktails and a menu inspired by dystopian fiction.',
-          tags: ['Immersive', 'Literary', 'Craft Cocktails']
-        }
+      music: [
+        { name: 'Neo-Soul', confidence: 0.91 },
+        { name: 'Jazz Fusion', confidence: 0.85 },
+        { name: 'Ambient Electronic', confidence: 0.79 }
       ],
-      playlists: [
-        {
-          title: 'Cinematic Journeys',
-          description: 'Film scores and ambient tracks that evoke the visual style of Christopher Nolan with Coldplay-esque emotional crescendos.',
-          tags: ['Cinematic', 'Emotional', 'Instrumental']
-        }
+      film: [
+        { name: 'French New Wave', confidence: 0.88 },
+        { name: 'Contemporary Korean Cinema', confidence: 0.84 },
+        { name: 'Magical Realism', confidence: 0.77 }
+      ],
+      literature: [
+        { name: 'Magical Realism', confidence: 0.90 },
+        { name: 'Contemporary Poetry', confidence: 0.83 },
+        { name: 'Historical Fiction', confidence: 0.76 }
+      ],
+      art: [
+        { name: 'Abstract Expressionism', confidence: 0.87 },
+        { name: 'Digital Art', confidence: 0.81 },
+        { name: 'Contemporary Photography', confidence: 0.75 }
       ]
     };
     
-    /* 
-    // Actual implementation would look something like this:
-    const response = await qlooClient.post('/taste-graph/recommendations', {
-      taste_profile: {
-        interests: tastes.map(taste => taste.value),
-        categories: tastes.map(taste => taste.category)
-      },
-      recommendation_types: ['travel', 'dining', 'music'],
-      limit: {
-        travel: 2,
-        dining: 1,
-        music: 1
-      }
-    });
-    
-    return {
-      destinations: response.data.travel.map(item => ({
-        title: item.name,
-        description: item.description,
-        tags: item.tags
-      })),
-      restaurants: response.data.dining.map(item => ({
-        title: item.name,
-        description: item.description,
-        tags: item.tags
-      })),
-      playlists: response.data.music.map(item => ({
-        title: item.name,
-        description: item.description,
-        tags: item.tags
-      }))
-    };
-    */
+    // Return recommendations for the requested domain, or a default if not found
+    return recommendationsByDomain[domain] || recommendationsByDomain.cuisine;
   } catch (error) {
-    console.error('Error in getRelatedTastes:', error);
-    throw new Error('Failed to get related tastes from Qloo');
+    console.error('Error getting recommendations from Qloo:', error);
+    throw new Error('Failed to get recommendations');
   }
 };
 
-// Get related trends from Qloo API for TrendWeaver
-exports.getRelatedTrends = async (filters) => {
+/**
+ * Create a taste profile for a user
+ * @param {string} userId - The user ID
+ * @param {Array} preferences - User's taste preferences
+ * @returns {Promise<Object>} - The created taste profile
+ */
+const createTasteProfile = async (userId, preferences) => {
   try {
-    console.log('Getting related trends from Qloo with filters:', filters);
+    // In a real implementation, this would call the Qloo API
+    // For now, we'll simulate a response
     
-    // Mock data for now
     return {
-      trends: [
-        {
-          title: 'Handcrafted Ceramics Revival',
-          description: 'A resurgence in appreciation for handmade pottery and ceramic arts.',
-          tags: ['Crafts', 'Artisanal', 'Home Decor'],
-          growth: '+31% YoY',
-          regions: ['North America', 'Japan', 'Scandinavia']
-        },
-        {
-          title: 'Global Folk Music Fusion',
-          description: 'Traditional folk music elements being incorporated into contemporary music genres.',
-          tags: ['Music', 'Traditional', 'Fusion'],
-          growth: '+24% YoY',
-          regions: ['Global', 'Strong in Eastern Europe']
-        }
-      ]
+      userId,
+      profileId: `profile_${Math.random().toString(36).substring(2, 10)}`,
+      preferences,
+      created: new Date().toISOString()
     };
   } catch (error) {
-    console.error('Error in getRelatedTrends:', error);
-    throw new Error('Failed to get related trends from Qloo');
+    console.error('Error creating taste profile with Qloo:', error);
+    throw new Error('Failed to create taste profile');
   }
 };
 
-// Get related content from Qloo API for TasteQuill
-exports.getRelatedContent = async (storyParams) => {
+/**
+ * Update a user's taste profile
+ * @param {string} userId - The user ID
+ * @param {Array} preferences - Updated taste preferences
+ * @returns {Promise<Object>} - The updated taste profile
+ */
+const updateTasteProfile = async (userId, preferences) => {
   try {
-    console.log('Getting related content from Qloo for story params:', storyParams);
+    // In a real implementation, this would call the Qloo API
+    // For now, we'll simulate a response
     
-    // Mock data for now
-    return [
-      {
-        title: 'The Art of Worldbuilding',
-        description: 'Techniques for creating immersive fictional universes inspired by your favorite creators.',
-        category: 'writing',
-        tags: ['worldbuilding', 'fiction', 'creativity']
-      },
-      {
-        title: 'Character Development Masterclass',
-        description: 'Learn how to craft memorable characters with depth and authenticity.',
-        category: 'writing',
-        tags: ['characters', 'writing', 'storytelling']
-      }
-    ];
+    return {
+      userId,
+      profileId: `profile_${userId.substring(0, 8)}`,
+      preferences,
+      updated: new Date().toISOString()
+    };
   } catch (error) {
-    console.error('Error in getRelatedContent:', error);
-    throw new Error('Failed to get related content from Qloo');
+    console.error('Error updating taste profile with Qloo:', error);
+    throw new Error('Failed to update taste profile');
   }
 };
 
-// Get taste profile for a user
-exports.getUserTasteProfile = async (userId) => {
-  try {
-    console.log('Getting taste profile for user:', userId);
-    
-    // Mock data for now
-    return {
-      topInterests: ['Cyberpunk', 'Ambient Music', 'Minimalist Design', 'Science Fiction', 'Japanese Cuisine'],
-      tasteConnections: [
-        {
-          from: 'Blade Runner',
-          to: 'Neuromancer',
-          strength: 0.87
-        },
-        {
-          from: 'Coldplay',
-          to: 'Sigur Rós',
-          strength: 0.82
-        },
-        {
-          from: 'Christopher Nolan',
-          to: 'Denis Villeneuve',
-          strength: 0.91
-        }
-      ],
-      recommendations: {
-        books: ['Neuromancer', 'Snow Crash', 'The Wind-Up Bird Chronicle'],
-        movies: ['Arrival', 'Ghost in the Shell', 'Lost in Translation'],
-        music: ['Tycho', 'Bonobo', 'Ólafur Arnalds']
-      }
-    };
-  } catch (error) {
-    console.error('Error in getUserTasteProfile:', error);
-    throw new Error('Failed to get user taste profile from Qloo');
-  }
+module.exports = {
+  getRecommendations,
+  createTasteProfile,
+  updateTasteProfile
 };

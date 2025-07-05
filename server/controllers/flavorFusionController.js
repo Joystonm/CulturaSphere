@@ -1,133 +1,163 @@
-const { getRecommendationsFromGroq } = require('../services/groqService');
-const { getRelatedTastes } = require('../services/qlooService');
-const { formatRecommendations } = require('../utils/tasteUtils');
+// Sample data (in a real app, this would come from a database)
+const cuisines = [
+  {
+    id: 1,
+    name: 'Japanese',
+    description: 'Delicate flavors, fresh ingredients, and artistic presentation.',
+    image: 'https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    category: 'Asian',
+    tags: ['Umami', 'Fresh', 'Seafood']
+  },
+  {
+    id: 2,
+    name: 'Italian',
+    description: 'Rich flavors, fresh herbs, and simple yet delicious combinations.',
+    image: 'https://images.unsplash.com/photo-1595295333158-4742f28fbd85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    category: 'European',
+    tags: ['Pasta', 'Tomato', 'Herbs']
+  },
+  {
+    id: 3,
+    name: 'Ethiopian',
+    description: 'Bold spices, communal dining, and unique fermented flavors.',
+    image: 'https://images.unsplash.com/photo-1567364667030-4d63bac61d31?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    category: 'African',
+    tags: ['Spicy', 'Stew', 'Injera']
+  }
+];
 
-// Get flavor recommendations based on user tastes
-exports.getRecommendations = async (req, res) => {
+const destinations = [
+  {
+    id: 1,
+    name: 'Tokyo, Japan',
+    image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    cuisine: 'Japanese cuisine capital',
+    description: 'Experience authentic sushi, ramen, and more in the world\'s most populous city.'
+  },
+  {
+    id: 2,
+    name: 'Naples, Italy',
+    image: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    cuisine: 'Birthplace of pizza',
+    description: 'Visit the origin of pizza and enjoy authentic Neapolitan cuisine.'
+  },
+  {
+    id: 3,
+    name: 'Addis Ababa, Ethiopia',
+    image: 'https://images.unsplash.com/photo-1576485290814-1c72aa4bbb8e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    cuisine: 'Authentic Ethiopian dining',
+    description: 'Experience traditional injera with various stews and the famous Ethiopian coffee ceremony.'
+  }
+];
+
+// Get all cuisines
+exports.getAllCuisines = (req, res) => {
   try {
-    const { tastes } = req.body;
-    
-    // Get recommendations from Groq LLM
-    const groqResponse = await getRecommendationsFromGroq(tastes);
-    
-    // Get related tastes from Qloo API
-    const qlooResponse = await getRelatedTastes(tastes);
-    
-    // Format and combine recommendations
-    const formattedResponse = {
-      destinations: formatRecommendations(groqResponse.destinations, qlooResponse.destinations),
-      restaurants: formatRecommendations(groqResponse.restaurants, qlooResponse.restaurants),
-      playlists: formatRecommendations(groqResponse.playlists, qlooResponse.playlists),
-      narrative: groqResponse.narrative
-    };
-    
     res.status(200).json({
       success: true,
-      data: formattedResponse
+      count: cuisines.length,
+      data: cuisines
     });
   } catch (error) {
-    console.error('Error in getRecommendations:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to get recommendations',
-      message: error.message
+      error: 'Server Error'
     });
   }
 };
 
-// Save a destination to user profile
-exports.saveDestination = async (req, res) => {
+// Get cuisine by ID
+exports.getCuisineById = (req, res) => {
   try {
-    const { userId, destination } = req.body;
+    const cuisine = cuisines.find(c => c.id === parseInt(req.params.id));
     
-    // Here you would save the destination to a database
-    // For now, we'll just return success
+    if (!cuisine) {
+      return res.status(404).json({
+        success: false,
+        error: 'Cuisine not found'
+      });
+    }
     
     res.status(200).json({
       success: true,
-      message: 'Destination saved successfully',
+      data: cuisine
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Server Error'
+    });
+  }
+};
+
+// Get all destinations
+exports.getAllDestinations = (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      count: destinations.length,
+      data: destinations
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Server Error'
+    });
+  }
+};
+
+// Get destination by ID
+exports.getDestinationById = (req, res) => {
+  try {
+    const destination = destinations.find(d => d.id === parseInt(req.params.id));
+    
+    if (!destination) {
+      return res.status(404).json({
+        success: false,
+        error: 'Destination not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: destination
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Server Error'
+    });
+  }
+};
+
+// Get recommendations based on user preferences
+exports.getRecommendations = (req, res) => {
+  try {
+    const { preferences } = req.body;
+    
+    if (!preferences || !Array.isArray(preferences)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Please provide preferences array'
+      });
+    }
+    
+    // In a real app, this would use a recommendation algorithm
+    // For now, just return random items
+    const recommendedCuisines = cuisines.sort(() => 0.5 - Math.random()).slice(0, 2);
+    const recommendedDestinations = destinations.sort(() => 0.5 - Math.random()).slice(0, 2);
+    
+    res.status(200).json({
+      success: true,
       data: {
-        id: Date.now().toString(),
-        ...destination,
-        savedAt: new Date()
+        cuisines: recommendedCuisines,
+        destinations: recommendedDestinations
       }
     });
   } catch (error) {
-    console.error('Error in saveDestination:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to save destination',
-      message: error.message
-    });
-  }
-};
-
-// Get saved destinations for a user
-exports.getSavedDestinations = async (req, res) => {
-  try {
-    const userId = req.query.userId || req.user?.id;
-    
-    // Here you would fetch saved destinations from a database
-    // For now, we'll return placeholder data
-    
-    res.status(200).json({
-      success: true,
-      data: [
-        {
-          id: '1',
-          title: 'Kyoto, Japan',
-          description: 'Ancient temples meet modern design in this serene city.',
-          image: '/path/to/kyoto.jpg',
-          tags: ['Serene', 'Cultural', 'Architectural'],
-          savedAt: new Date('2023-10-15')
-        },
-        {
-          id: '2',
-          title: 'Berlin, Germany',
-          description: 'A hub for electronic music and avant-garde art.',
-          image: '/path/to/berlin.jpg',
-          tags: ['Edgy', 'Artistic', 'Nightlife'],
-          savedAt: new Date('2023-10-10')
-        }
-      ]
-    });
-  } catch (error) {
-    console.error('Error in getSavedDestinations:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to get saved destinations',
-      message: error.message
-    });
-  }
-};
-
-// Create a travel story based on destination
-exports.createTravelStory = async (req, res) => {
-  try {
-    const { destination, preferences } = req.body;
-    
-    // Generate a travel story using Groq LLM
-    const story = await getRecommendationsFromGroq({
-      type: 'travel-story',
-      destination,
-      preferences
-    });
-    
-    res.status(200).json({
-      success: true,
-      data: {
-        title: `Journey to ${destination.title}`,
-        content: story.content,
-        destination: destination,
-        createdAt: new Date()
-      }
-    });
-  } catch (error) {
-    console.error('Error in createTravelStory:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to create travel story',
-      message: error.message
+      error: 'Server Error'
     });
   }
 };

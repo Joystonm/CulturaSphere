@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TasteCard = ({ title, description, image, tags }) => {
+const TasteCard = ({ title, description, tags, image }) => {
   return (
     <div className="taste-card">
       {image && (
@@ -14,9 +14,7 @@ const TasteCard = ({ title, description, image, tags }) => {
         {tags && tags.length > 0 && (
           <div className="taste-card-tags">
             {tags.map((tag, index) => (
-              <span key={index} className="taste-card-tag">
-                {tag}
-              </span>
+              <span key={index} className="taste-card-tag">{tag}</span>
             ))}
           </div>
         )}

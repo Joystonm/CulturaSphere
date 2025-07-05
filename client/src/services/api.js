@@ -1,88 +1,32 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 });
 
-// User authentication
-export const registerUser = (userData) => {
-  return api.post('/auth/register', userData);
-};
-
-export const loginUser = (credentials) => {
-  return api.post('/auth/login', credentials);
-};
-
-export const getUserProfile = () => {
-  return api.get('/auth/profile');
-};
-
-// User preferences
-export const saveUserPreferences = (preferences) => {
-  return api.post('/user/preferences', preferences);
-};
-
-export const getUserPreferences = () => {
-  return api.get('/user/preferences');
-};
-
 // FlavorFusion API calls
-export const getFlavorRecommendations = (tastes) => {
-  return api.post('/flavor-fusion/recommendations', tastes);
-};
-
-export const saveDestination = (destination) => {
-  return api.post('/flavor-fusion/save-destination', destination);
-};
-
-export const getSavedDestinations = () => {
-  return api.get('/flavor-fusion/saved-destinations');
-};
+export const getCuisines = () => api.get('/flavor-fusion/cuisines');
+export const getCuisineById = (id) => api.get(`/flavor-fusion/cuisines/${id}`);
+export const getDestinations = () => api.get('/flavor-fusion/destinations');
+export const getDestinationById = (id) => api.get(`/flavor-fusion/destinations/${id}`);
+export const getFlavorRecommendations = (preferences) => api.post('/flavor-fusion/recommendations', { preferences });
 
 // TrendWeaver API calls
-export const getTrends = (filters) => {
-  return api.get('/trend-weaver/trends', { params: filters });
-};
-
-export const getTrendDetails = (trendId) => {
-  return api.get(`/trend-weaver/trends/${trendId}`);
-};
-
-export const askAiStrategist = (question) => {
-  return api.post('/trend-weaver/ai-strategist', { question });
-};
-
-export const exportTrendReport = (filters) => {
-  return api.get('/trend-weaver/export', { 
-    params: filters,
-    responseType: 'blob' 
-  });
-};
+export const getTrends = () => api.get('/trend-weaver/trends');
+export const getTrendsByCategory = (category) => api.get(`/trend-weaver/trends/${category}`);
+export const getInsights = () => api.get('/trend-weaver/insights');
+export const getTrendRecommendations = (preferences) => api.post('/trend-weaver/recommendations', { preferences });
 
 // TasteQuill API calls
-export const generateStory = (storyParams) => {
-  return api.post('/taste-quill/generate', storyParams);
-};
-
-export const saveStory = (story) => {
-  return api.post('/taste-quill/save', story);
-};
-
-export const getSavedStories = () => {
-  return api.get('/taste-quill/stories');
-};
-
-export const generateCharacterSheet = (storyId) => {
-  return api.post(`/taste-quill/character-sheet/${storyId}`);
-};
-
-export const submitTasteQuill = (data) => {
-  return api.post('/taste-quill/submissions', data);
-};
+export const generateStory = (storyData) => api.post('/taste-quill/generate', storyData);
+export const saveStory = (storyData) => api.post('/taste-quill/save', storyData);
+export const getUserStories = () => api.get('/taste-quill/stories');
+export const getStoryById = (id) => api.get(`/taste-quill/stories/${id}`);
+export const deleteStory = (id) => api.delete(`/taste-quill/stories/${id}`);
 
 export default api;

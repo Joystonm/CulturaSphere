@@ -1,284 +1,136 @@
-import React, { useState, useEffect } from 'react';
-import TasteCard from '../components/TasteCard';
-import { getTrends } from '../services/api';
+import React, { useState } from 'react';
 
 const TrendWeaver = () => {
-  const [selectedIndustry, setSelectedIndustry] = useState('all');
-  const [trends, setTrends] = useState([]);
-  const [crossDomainLinks, setCrossDomainLinks] = useState([]);
-  const [brandIdeas, setBrandIdeas] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [aiQuestion, setAiQuestion] = useState('');
-  const [aiResponse, setAiResponse] = useState('');
-  const [isAiResponding, setIsAiResponding] = useState(false);
-
-  const industries = [
-    { id: 'all', name: 'All Industries' },
-    { id: 'music', name: 'Music' },
-    { id: 'fashion', name: 'Fashion' },
-    { id: 'travel', name: 'Travel' },
-    { id: 'literature', name: 'Literature' },
-    { id: 'branding', name: 'Branding' },
-    { id: 'film', name: 'Film & TV' },
-    { id: 'art', name: 'Visual Arts' }
+  const [activeCategory, setActiveCategory] = useState('Music');
+  
+  const categories = ['Music', 'Art', 'Fashion', 'Film', 'Literature'];
+  
+  const trends = [
+    {
+      id: 1,
+      title: 'Neo-Soul Revival',
+      description: 'A resurgence of soul music with modern production techniques and classic vocal stylings.',
+      image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Music',
+      date: '2023-06-15'
+    },
+    {
+      id: 2,
+      title: 'Digital Surrealism',
+      description: 'AI-generated artwork that blends surrealist concepts with digital manipulation.',
+      image: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Art',
+      date: '2023-05-22'
+    },
+    {
+      id: 3,
+      title: 'Sustainable Luxury',
+      description: 'High-end fashion brands embracing eco-friendly materials and ethical production.',
+      image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Fashion',
+      date: '2023-07-03'
+    },
+    {
+      id: 4,
+      title: 'Micro-Budget Cinema',
+      description: 'Independent filmmakers creating compelling narratives with minimal resources.',
+      image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Film',
+      date: '2023-04-18'
+    },
+    {
+      id: 5,
+      title: 'Climate Fiction',
+      description: 'Literary works exploring the impact of climate change on society and individuals.',
+      image: 'https://images.unsplash.com/photo-1476275466078-4007374efbbe?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Literature',
+      date: '2023-06-29'
+    }
   ];
-
-  useEffect(() => {
-    // Initial load of trends
-    fetchTrends();
-  }, [selectedIndustry]);
-
-  const fetchTrends = async () => {
-    setLoading(true);
-    try {
-      // This would be replaced with an actual API call
-      // const response = await getTrends({ industry: selectedIndustry });
-      // setTrends(response.data.trends);
-      // setCrossDomainLinks(response.data.crossDomainLinks);
-      // setBrandIdeas(response.data.brandIdeas);
-      
-      // Placeholder data for now
-      setTimeout(() => {
-        setTrends([
-          {
-            id: 1,
-            title: 'Neo-Traditional Art Revival',
-            description: 'A modern take on traditional art forms, blending historical techniques with contemporary themes.',
-            image: '/path/to/neo-trad-art.jpg',
-            tags: ['Art', 'Visual Culture', 'Trending'],
-            growth: '+28% YoY',
-            regions: ['North America', 'Western Europe', 'Japan']
-          },
-          {
-            id: 2,
-            title: 'Fusion Electronic Music',
-            description: 'Electronic producers incorporating traditional instruments and folk melodies from around the world.',
-            image: '/path/to/fusion-music.jpg',
-            tags: ['Music', 'Electronic', 'Cultural Fusion'],
-            growth: '+42% YoY',
-            regions: ['Global', 'Strong in Scandinavia']
-          },
-          {
-            id: 3,
-            title: 'Sustainable Fashion Movement',
-            description: 'Designers embracing eco-friendly materials and traditional craftsmanship for sustainable fashion.',
-            image: '/path/to/sustainable-fashion.jpg',
-            tags: ['Fashion', 'Sustainability', 'Craftsmanship'],
-            growth: '+65% YoY',
-            regions: ['Global', 'Led by EU markets']
-          }
-        ]);
-        
-        setCrossDomainLinks([
-          {
-            id: 1,
-            title: 'Scandinavian Noir & Ambient Techno',
-            description: 'People into Scandinavian noir novels also show strong interest in ambient techno music and minimalist design.',
-            tags: ['Cross-Domain', 'Literature', 'Music']
-          },
-          {
-            id: 2,
-            title: 'K-Pop & Streetwear Fashion',
-            description: 'K-Pop fans are 3.2x more likely to follow streetwear fashion trends and purchase limited edition apparel.',
-            tags: ['Cross-Domain', 'Music', 'Fashion']
-          }
-        ]);
-        
-        setBrandIdeas([
-          {
-            id: 1,
-            title: 'Nostalgia-Tech Fusion',
-            description: 'Brands combining retro aesthetics with cutting-edge technology are seeing 47% higher engagement with Gen Z.',
-            tags: ['Brand Strategy', 'Gen Z', 'Nostalgia']
-          },
-          {
-            id: 2,
-            title: 'Micro-Community Targeting',
-            description: 'Brands creating highly specific content for niche interest groups see 3.8x higher conversion rates.',
-            tags: ['Brand Strategy', 'Community', 'Conversion']
-          }
-        ]);
-        
-        setLoading(false);
-      }, 1500);
-    } catch (error) {
-      console.error('Error fetching trends:', error);
-      setLoading(false);
+  
+  const insights = [
+    {
+      id: 1,
+      title: 'The Intersection of Technology and Traditional Art Forms',
+      date: 'July 10, 2023',
+      content: 'As digital tools become more accessible, we\'re seeing a fascinating blend of traditional artistic techniques with cutting-edge technology. This fusion is creating new aesthetic languages and challenging our perception of what constitutes "authentic" art.'
+    },
+    {
+      id: 2,
+      title: 'Global Influences in Local Music Scenes',
+      date: 'June 28, 2023',
+      content: 'The internet has accelerated the cross-pollination of musical styles across geographical boundaries. Local music scenes are increasingly incorporating elements from distant cultures, resulting in rich, hybrid genres that reflect our interconnected world.'
     }
-  };
-
-  const handleIndustryChange = (industry) => {
-    setSelectedIndustry(industry);
-  };
-
-  const handleAiQuestionChange = (e) => {
-    setAiQuestion(e.target.value);
-  };
-
-  const handleAiQuestionSubmit = async (e) => {
-    e.preventDefault();
-    if (!aiQuestion.trim()) return;
-    
-    setIsAiResponding(true);
-    
-    try {
-      // This would be replaced with an actual API call to your LLM service
-      // const response = await askAiStrategist(aiQuestion);
-      // setAiResponse(response.data.answer);
-      
-      // Placeholder response for now
-      setTimeout(() => {
-        setAiResponse(
-          "For a skincare brand targeting Gen Z K-pop and anime fans, I recommend:\n\n" +
-          "1. Collaborate with K-pop artists on limited edition collections with anime-inspired packaging\n\n" +
-          "2. Create content featuring skincare routines of K-pop idols, emphasizing the 'glass skin' aesthetic popular in both K-pop and anime\n\n" +
-          "3. Develop products with ingredients popular in Korean and Japanese skincare, but with playful branding that references anime aesthetics\n\n" +
-          "4. Launch social campaigns on platforms like TikTok and Instagram with challenges that combine K-pop choreography with skincare application\n\n" +
-          "5. Consider sustainability in packaging as this demographic shows 72% higher concern for environmental impact"
-        );
-        setIsAiResponding(false);
-      }, 2000);
-    } catch (error) {
-      console.error('Error getting AI response:', error);
-      setAiResponse('Sorry, I encountered an error while processing your question. Please try again.');
-      setIsAiResponding(false);
-    }
-  };
-
-  const handleExportTrends = () => {
-    // This would typically generate and download a PDF or CSV
-    console.log('Exporting trend data...');
-    alert('Trend report would be downloaded here in a real implementation.');
-  };
-
-  const handlePredictNextTrend = () => {
-    // This would trigger a more advanced prediction algorithm
-    console.log('Predicting next trends...');
-    alert('Next trend prediction would be generated here in a real implementation.');
-  };
-
+  ];
+  
+  const filteredTrends = trends.filter(trend => trend.category === activeCategory);
+  
   return (
     <div className="trend-weaver-container">
-      <h1>TrendWeaver</h1>
-      <p className="section-description">Discover emerging cultural trends and insights aligned with your interests.</p>
+      <header className="trend-weaver-header">
+        <h1 className="trend-weaver-title">TrendWeaver</h1>
+        <p className="trend-weaver-description">
+          Connect with cultural trends across music, art, fashion, and entertainment.
+          Stay ahead of the curve with personalized trend insights.
+        </p>
+      </header>
       
-      <div className="industry-selector">
-        {industries.map(industry => (
+      <div className="trend-categories">
+        {categories.map(category => (
           <button
-            key={industry.id}
-            className={`industry-button ${selectedIndustry === industry.id ? 'active' : ''}`}
-            onClick={() => handleIndustryChange(industry.id)}
+            key={category}
+            className={`trend-category ${activeCategory === category ? 'active' : ''}`}
+            onClick={() => setActiveCategory(category)}
           >
-            {industry.name}
+            {category}
           </button>
         ))}
       </div>
       
-      {loading ? (
-        <div className="loading-indicator">
-          <div className="spinner"></div>
-          <p>Analyzing cultural trends...</p>
-        </div>
-      ) : (
-        <div className="dashboard-layout">
-          <div className="main-trends-section">
-            <div className="section-header">
-              <h2>Emerging Trends</h2>
-              <div className="section-actions">
-                <button onClick={handleExportTrends} className="action-button">
-                  Export Report
-                </button>
-                <button onClick={handlePredictNextTrend} className="action-button predict-button">
-                  Predict Next Trend
-                </button>
+      <div className="trend-grid">
+        {filteredTrends.map(trend => (
+          <div key={trend.id} className="trend-item">
+            <img src={trend.image} alt={trend.title} className="trend-image" />
+            <div className="trend-content">
+              <h3 className="trend-title">{trend.title}</h3>
+              <p className="trend-description">{trend.description}</p>
+              <div className="trend-meta">
+                <span className="trend-date">{trend.date}</span>
+                <span className="trend-category-tag">{trend.category}</span>
               </div>
             </div>
-            
-            <div className="trends-grid">
-              {trends.map(trend => (
-                <div key={trend.id} className="trend-card">
-                  <div className="trend-card-header">
-                    <h3>{trend.title}</h3>
-                    <div className="trend-growth">{trend.growth}</div>
-                  </div>
-                  <p className="trend-description">{trend.description}</p>
-                  <div className="trend-regions">
-                    <strong>Regions:</strong> {trend.regions.join(', ')}
-                  </div>
-                  <div className="trend-tags">
-                    {trend.tags.map((tag, index) => (
-                      <span key={index} className="trend-tag">{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
-          
-          <div className="side-panels">
-            <div className="cross-domain-section panel">
-              <h2>Cross-Domain Connections</h2>
-              {crossDomainLinks.map(link => (
-                <div key={link.id} className="cross-domain-card">
-                  <h3>{link.title}</h3>
-                  <p>{link.description}</p>
-                  <div className="trend-tags">
-                    {link.tags.map((tag, index) => (
-                      <span key={index} className="trend-tag">{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="brand-ideas-section panel">
-              <h2>Brand Content Ideas</h2>
-              {brandIdeas.map(idea => (
-                <div key={idea.id} className="brand-idea-card">
-                  <h3>{idea.title}</h3>
-                  <p>{idea.description}</p>
-                  <div className="trend-tags">
-                    {idea.tags.map((tag, index) => (
-                      <span key={index} className="trend-tag">{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="ai-strategist-section">
-            <h2>Ask an AI Strategist</h2>
-            <form onSubmit={handleAiQuestionSubmit} className="ai-question-form">
-              <input
-                type="text"
-                value={aiQuestion}
-                onChange={handleAiQuestionChange}
-                placeholder="E.g., How can a skincare brand target Gen Z into K-pop and anime?"
-                className="ai-question-input"
-              />
-              <button 
-                type="submit" 
-                className="ai-question-button"
-                disabled={isAiResponding || !aiQuestion.trim()}
-              >
-                {isAiResponding ? 'Thinking...' : 'Ask'}
-              </button>
-            </form>
-            
-            {aiResponse && (
-              <div className="ai-response">
-                <h3>Strategic Insight:</h3>
-                <div className="ai-response-content">
-                  {aiResponse.split('\n\n').map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
-                </div>
-              </div>
-            )}
+        ))}
+      </div>
+      
+      <section className="trend-chart-section">
+        <h2>Trend Analysis</h2>
+        <div className="trend-chart">
+          {/* Chart would go here in a real implementation */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '100%',
+            color: '#666'
+          }}>
+            Interactive Trend Chart Coming Soon
           </div>
         </div>
-      )}
+      </section>
+      
+      <section className="trend-insights">
+        <h2>Cultural Insights</h2>
+        {insights.map(insight => (
+          <div key={insight.id} className="insight-card">
+            <div className="insight-header">
+              <h3 className="insight-title">{insight.title}</h3>
+              <span className="insight-date">{insight.date}</span>
+            </div>
+            <p className="insight-content">{insight.content}</p>
+          </div>
+        ))}
+      </section>
     </div>
   );
 };

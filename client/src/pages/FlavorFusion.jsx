@@ -1,249 +1,132 @@
-import React, { useState, useEffect } from 'react';
-import TasteCard from '../components/TasteCard';
-import { getFlavorRecommendations } from '../services/api';
+import React, { useState } from 'react';
 
 const FlavorFusion = () => {
-  const [userTastes, setUserTastes] = useState([
-    { category: 'Music', value: 'Coldplay' },
-    { category: 'Movies', value: 'Christopher Nolan' },
-    { category: 'Books', value: 'Dystopian Fiction' },
-    { category: 'Fashion', value: 'Cyberpunk' }
-  ]);
+  const [activeFilter, setActiveFilter] = useState('All');
   
-  const [destinations, setDestinations] = useState([]);
-  const [restaurants, setRestaurants] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [narrativeText, setNarrativeText] = useState('');
-
-  useEffect(() => {
-    // Initial load of recommendations
-    fetchRecommendations();
-  }, []);
-
-  const fetchRecommendations = async () => {
-    setLoading(true);
-    try {
-      // This would be replaced with an actual API call
-      // const response = await getFlavorRecommendations({ tastes: userTastes });
-      // setDestinations(response.data.destinations);
-      // setRestaurants(response.data.restaurants);
-      // setPlaylists(response.data.playlists);
-      // setNarrativeText(response.data.narrative);
-      
-      // Placeholder data for now
-      setTimeout(() => {
-        setDestinations([
-          {
-            id: 1,
-            title: 'Kyoto, Japan',
-            description: 'Ancient temples meet modern design in this serene city that balances tradition with innovation.',
-            image: '/path/to/kyoto.jpg',
-            tags: ['Serene', 'Cultural', 'Architectural']
-          },
-          {
-            id: 2,
-            title: 'Berlin, Germany',
-            description: 'A hub for electronic music and avant-garde art with a cyberpunk aesthetic in areas like Kreuzberg.',
-            image: '/path/to/berlin.jpg',
-            tags: ['Edgy', 'Artistic', 'Nightlife']
-          },
-          {
-            id: 3,
-            title: 'Reykjavik, Iceland',
-            description: 'Otherworldly landscapes and minimalist design create a surreal atmosphere similar to Nolan\'s visuals.',
-            image: '/path/to/reykjavik.jpg',
-            tags: ['Surreal', 'Minimalist', 'Atmospheric']
-          }
-        ]);
-        
-        setRestaurants([
-          {
-            id: 1,
-            title: 'Neo Tokyo Ramen',
-            description: 'Futuristic dining experience with neon lighting and cyberpunk decor serving fusion Japanese cuisine.',
-            image: '/path/to/neo-tokyo.jpg',
-            tags: ['Cyberpunk', 'Japanese', 'Fusion']
-          },
-          {
-            id: 2,
-            title: 'Inception Café',
-            description: 'Multi-level café with dream-like interiors and gravity-defying architecture inspired by Nolan\'s films.',
-            image: '/path/to/inception-cafe.jpg',
-            tags: ['Surreal', 'Architectural', 'Immersive']
-          }
-        ]);
-        
-        setPlaylists([
-          {
-            id: 1,
-            title: 'Dystopian Soundscapes',
-            description: 'Ambient electronic music with Coldplay-inspired melodies for your cyberpunk travel experience.',
-            image: '/path/to/playlist1.jpg',
-            tags: ['Electronic', 'Ambient', 'Atmospheric']
-          }
-        ]);
-        
-        setNarrativeText("Based on your love for Coldplay's atmospheric sounds and Christopher Nolan's visual aesthetics, Kyoto offers the perfect blend of serenity and surrealism. The ancient temples bathed in morning mist create dreamlike scenes reminiscent of Inception, while the city's blend of tradition and technology mirrors the dystopian-yet-beautiful worlds you enjoy in fiction.");
-        
-        setLoading(false);
-      }, 1500);
-    } catch (error) {
-      console.error('Error fetching recommendations:', error);
-      setLoading(false);
+  const cuisineFilters = ['All', 'Asian', 'European', 'African', 'American', 'Middle Eastern'];
+  
+  const cuisines = [
+    {
+      id: 1,
+      name: 'Japanese',
+      description: 'Delicate flavors, fresh ingredients, and artistic presentation.',
+      image: 'https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Asian',
+      tags: ['Umami', 'Fresh', 'Seafood']
+    },
+    {
+      id: 2,
+      name: 'Italian',
+      description: 'Rich flavors, fresh herbs, and simple yet delicious combinations.',
+      image: 'https://images.unsplash.com/photo-1595295333158-4742f28fbd85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'European',
+      tags: ['Pasta', 'Tomato', 'Herbs']
+    },
+    {
+      id: 3,
+      name: 'Ethiopian',
+      description: 'Bold spices, communal dining, and unique fermented flavors.',
+      image: 'https://images.unsplash.com/photo-1567364667030-4d63bac61d31?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'African',
+      tags: ['Spicy', 'Stew', 'Injera']
     }
-  };
-
-  const handleRemoveTaste = (index) => {
-    setUserTastes(userTastes.filter((_, i) => i !== index));
-  };
-
-  const handleAddTaste = (e) => {
-    e.preventDefault();
-    const category = e.target.category.value;
-    const value = e.target.value.value;
-    
-    if (category && value) {
-      setUserTastes([...userTastes, { category, value }]);
-      e.target.reset();
+  ];
+  
+  const destinations = [
+    {
+      id: 1,
+      name: 'Tokyo, Japan',
+      image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      cuisine: 'Japanese cuisine capital'
+    },
+    {
+      id: 2,
+      name: 'Naples, Italy',
+      image: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      cuisine: 'Birthplace of pizza'
+    },
+    {
+      id: 3,
+      name: 'Addis Ababa, Ethiopia',
+      image: 'https://images.unsplash.com/photo-1576485290814-1c72aa4bbb8e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      cuisine: 'Authentic Ethiopian dining'
     }
-  };
-
-  const handleRegenerateClick = () => {
-    fetchRecommendations();
-  };
-
-  const handleCreateTravelStory = () => {
-    // Navigate to TasteQuill with pre-filled travel story prompt
-    // This would typically use React Router navigation with state
-    console.log('Creating travel story based on recommendations');
-  };
-
+  ];
+  
+  const filteredCuisines = activeFilter === 'All' 
+    ? cuisines 
+    : cuisines.filter(cuisine => cuisine.category === activeFilter);
+  
   return (
     <div className="flavor-fusion-container">
-      <h1>FlavorFusion</h1>
-      <p className="section-description">Discover travel and dining experiences based on your cultural taste profile.</p>
+      <header className="flavor-fusion-header">
+        <h1 className="flavor-fusion-title">FlavorFusion</h1>
+        <p className="flavor-fusion-description">
+          Discover culinary connections and explore new tastes based on your preferences.
+          Travel the world through flavors and find your next food adventure.
+        </p>
+      </header>
       
-      <div className="flavor-fusion-layout">
-        {/* Left Panel - User Tastes */}
-        <div className="taste-panel">
-          <h2>Your Taste Profile</h2>
-          <div className="taste-tags">
-            {userTastes.map((taste, index) => (
-              <div key={index} className="taste-tag">
-                <span className="taste-category">{taste.category}:</span>
-                <span className="taste-value">{taste.value}</span>
-                <button 
-                  onClick={() => handleRemoveTaste(index)}
-                  className="remove-taste"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-          
-          <form onSubmit={handleAddTaste} className="add-taste-form">
-            <select name="category" required>
-              <option value="">Select Category</option>
-              <option value="Music">Music</option>
-              <option value="Movies">Movies</option>
-              <option value="Books">Books</option>
-              <option value="Fashion">Fashion</option>
-              <option value="Art">Art</option>
-              <option value="Food">Food</option>
-            </select>
-            <input 
-              type="text" 
-              name="value" 
-              placeholder="Enter your preference" 
-              required 
-            />
-            <button type="submit">Add</button>
-          </form>
-          
-          <button 
-            onClick={handleRegenerateClick}
-            className="regenerate-button"
-            disabled={loading}
-          >
-            {loading ? 'Generating...' : 'Regenerate Suggestions'}
-          </button>
-          
-          <button 
-            onClick={handleCreateTravelStory}
-            className="create-story-button"
-          >
-            Create a Travel Story
-          </button>
+      <section className="cuisine-explorer">
+        <h2>Explore Cuisines</h2>
+        
+        <div className="cuisine-filters">
+          {cuisineFilters.map(filter => (
+            <button
+              key={filter}
+              className={`cuisine-filter ${activeFilter === filter ? 'active' : ''}`}
+              onClick={() => setActiveFilter(filter)}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
         
-        {/* Right Panel - Recommendations */}
-        <div className="recommendations-panel">
-          {loading ? (
-            <div className="loading-indicator">
-              <div className="spinner"></div>
-              <p>Crafting your personalized recommendations...</p>
+        <div className="cuisine-grid">
+          {filteredCuisines.map(cuisine => (
+            <div key={cuisine.id} className="cuisine-card">
+              <img src={cuisine.image} alt={cuisine.name} className="cuisine-image" />
+              <div className="cuisine-content">
+                <h3 className="cuisine-name">{cuisine.name}</h3>
+                <p className="cuisine-description">{cuisine.description}</p>
+                <div className="cuisine-tags">
+                  {cuisine.tags.map((tag, index) => (
+                    <span key={index} className="cuisine-tag">{tag}</span>
+                  ))}
+                </div>
+              </div>
             </div>
-          ) : (
-            <>
-              {narrativeText && (
-                <div className="narrative-box">
-                  <h3>Your Cultural Journey</h3>
-                  <p>{narrativeText}</p>
-                </div>
-              )}
-              
-              <div className="recommendation-section">
-                <h2>Destinations for You</h2>
-                <div className="recommendations-grid">
-                  {destinations.map(destination => (
-                    <TasteCard
-                      key={destination.id}
-                      title={destination.title}
-                      description={destination.description}
-                      image={destination.image}
-                      tags={destination.tags}
-                    />
-                  ))}
-                </div>
-              </div>
-              
-              <div className="recommendation-section">
-                <h2>Dining Experiences</h2>
-                <div className="recommendations-grid">
-                  {restaurants.map(restaurant => (
-                    <TasteCard
-                      key={restaurant.id}
-                      title={restaurant.title}
-                      description={restaurant.description}
-                      image={restaurant.image}
-                      tags={restaurant.tags}
-                    />
-                  ))}
-                </div>
-              </div>
-              
-              {playlists.length > 0 && (
-                <div className="recommendation-section">
-                  <h2>Travel Soundtrack</h2>
-                  <div className="recommendations-grid">
-                    {playlists.map(playlist => (
-                      <TasteCard
-                        key={playlist.id}
-                        title={playlist.title}
-                        description={playlist.description}
-                        image={playlist.image}
-                        tags={playlist.tags}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </>
-          )}
+          ))}
         </div>
-      </div>
+      </section>
+      
+      <section className="destination-section">
+        <h2>Culinary Destinations</h2>
+        <div className="destination-map">
+          {/* Map would go here in a real implementation */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '100%',
+            color: '#666'
+          }}>
+            Interactive Map Coming Soon
+          </div>
+        </div>
+        
+        <div className="destination-list">
+          {destinations.map(destination => (
+            <div key={destination.id} className="destination-card">
+              <img src={destination.image} alt={destination.name} className="destination-image" />
+              <div className="destination-overlay">
+                <h3 className="destination-name">{destination.name}</h3>
+                <p className="destination-cuisine">{destination.cuisine}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };

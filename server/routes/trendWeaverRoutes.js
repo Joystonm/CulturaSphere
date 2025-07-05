@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { 
-  getTrends,
-  getTrendDetails,
-  askAiStrategist,
-  exportTrendReport,
-  predictNextTrend
-} = require('../controllers/trendWeaverController');
+const trendWeaverController = require('../controllers/trendWeaverController');
 
-// Routes
-router.get('/trends', getTrends);
-router.get('/trends/:trendId', getTrendDetails);
-router.post('/ai-strategist', askAiStrategist);
-router.get('/export', exportTrendReport);
-router.post('/predict', predictNextTrend);
+// Get all trends
+router.get('/trends', trendWeaverController.getAllTrends);
+
+// Get trends by category
+router.get('/trends/:category', trendWeaverController.getTrendsByCategory);
+
+// Get cultural insights
+router.get('/insights', trendWeaverController.getInsights);
+
+// Get personalized trend recommendations
+router.post('/recommendations', trendWeaverController.getTrendRecommendations);
 
 module.exports = router;
