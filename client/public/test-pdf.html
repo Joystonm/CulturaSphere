@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Test</title>
+</head>
+<body>
+  <h1>PDF Generation Test</h1>
+  <button id="generate-pdf">Generate Test PDF</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+  <script>
+    document.getElementById('generate-pdf').addEventListener('click', function() {
+      // Create a new jsPDF instance
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      // Add title
+      doc.setFontSize(20);
+      doc.text('Test PDF Document', 105, 20, { align: 'center' });
+      
+      // Add some text
+      doc.setFontSize(12);
+      doc.text('This is a test PDF document created with jsPDF', 20, 40);
+      
+      // Add a table
+      doc.autoTable({
+        startY: 50,
+        head: [['Name', 'Email', 'Country']],
+        body: [
+          ['John Doe', 'john@example.com', 'USA'],
+          ['Jane Smith', 'jane@example.com', 'Canada'],
+          ['Bob Johnson', 'bob@example.com', 'UK']
+        ],
+      });
+      
+      // Save the PDF
+      doc.save('test-document.pdf');
+    });
+  </script>
+</body>
+</html>

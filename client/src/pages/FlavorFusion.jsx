@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
+import CulturalItineraryComposer from '../components/flavor-fusion/CulturalItineraryComposer';
+import TasteAlignedPersonas from '../components/flavor-fusion/TasteAlignedPersonas';
+import TasteToGeoVisualizer from '../components/flavor-fusion/TasteToGeoVisualizer';
+import MoodBlendingEngine from '../components/flavor-fusion/MoodBlendingEngine';
+import TravelPDFGenerator from '../components/flavor-fusion/TravelPDFGenerator';
+import PostTripStoryMode from '../components/flavor-fusion/PostTripStoryMode';
 
 const FlavorFusion = () => {
   const [activeFilter, setActiveFilter] = useState('All');
+  const [activeTab, setActiveTab] = useState('explore');
   
   const cuisineFilters = ['All', 'Asian', 'European', 'African', 'American', 'Middle Eastern'];
   
@@ -26,36 +33,72 @@ const FlavorFusion = () => {
       id: 3,
       name: 'Ethiopian',
       description: 'Bold spices, communal dining, and unique fermented flavors.',
-      image: 'https://images.unsplash.com/photo-1567364667030-4d63bac61d31?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      image: 'https://images.unsplash.com/photo-1511516412963-801b050c92aa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
       category: 'African',
       tags: ['Spicy', 'Stew', 'Injera']
-    }
-  ];
-  
-  const destinations = [
-    {
-      id: 1,
-      name: 'Tokyo, Japan',
-      image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      cuisine: 'Japanese cuisine capital'
     },
     {
-      id: 2,
-      name: 'Naples, Italy',
-      image: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      cuisine: 'Birthplace of pizza'
+      id: 4,
+      name: 'Mexican',
+      description: 'Vibrant flavors, fresh ingredients, and a perfect balance of spice.',
+      image: 'https://images.unsplash.com/photo-1613514785940-daed07799d9b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'American',
+      tags: ['Spicy', 'Corn', 'Avocado']
     },
     {
-      id: 3,
-      name: 'Addis Ababa, Ethiopia',
-      image: 'https://images.unsplash.com/photo-1576485290814-1c72aa4bbb8e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      cuisine: 'Authentic Ethiopian dining'
+      id: 5,
+      name: 'Thai',
+      description: 'Complex flavors balancing sweet, sour, salty, and spicy elements.',
+      image: 'https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Asian',
+      tags: ['Spicy', 'Aromatic', 'Herbs']
+    },
+    {
+      id: 6,
+      name: 'Lebanese',
+      description: 'Fresh ingredients, aromatic herbs, and a focus on healthy preparations.',
+      image: 'https://images.unsplash.com/photo-1606811971618-4486d14f3f99?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Middle Eastern',
+      tags: ['Mezze', 'Olive Oil', 'Herbs']
+    },
+    {
+      id: 7,
+      name: 'French',
+      description: 'Refined techniques, rich sauces, and an emphasis on quality ingredients.',
+      image: 'https://images.unsplash.com/photo-1608855238293-a8853e7f7c98?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'European',
+      tags: ['Butter', 'Wine', 'Pastry']
+    },
+    {
+      id: 8,
+      name: 'Indian',
+      description: 'Complex spice blends, diverse regional variations, and aromatic curries.',
+      image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'Asian',
+      tags: ['Spicy', 'Curry', 'Vegetarian']
+    },
+    {
+      id: 9,
+      name: 'Moroccan',
+      description: 'Fragrant spices, sweet-savory combinations, and slow-cooked tagines.',
+      image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+      category: 'African',
+      tags: ['Tagine', 'Couscous', 'Spices']
     }
   ];
   
   const filteredCuisines = activeFilter === 'All' 
     ? cuisines 
     : cuisines.filter(cuisine => cuisine.category === activeFilter);
+
+  const advancedFeatures = [
+    { id: 'itinerary', name: 'Cultural Itinerary Composer', component: <CulturalItineraryComposer /> },
+    { id: 'personas', name: 'Taste-Aligned Travel Personas', component: <TasteAlignedPersonas /> },
+    { id: 'geo-visualizer', name: 'Taste-to-Geo Visualizer', component: <TasteToGeoVisualizer /> },
+    { id: 'mood-blending', name: 'Mood Blending Engine', component: <MoodBlendingEngine /> },
+    { id: 'pdf-generator', name: 'Travel PDF Generator', component: <TravelPDFGenerator /> },
+    { id: 'story-mode', name: 'Post-Trip Story Mode', component: <PostTripStoryMode /> }
+  ];
   
   return (
     <div className="flavor-fusion-container">
@@ -67,68 +110,114 @@ const FlavorFusion = () => {
         </p>
       </header>
       
-      <section className="cuisine-explorer">
-        <h2>Explore Cuisines</h2>
-        
-        <div className="cuisine-filters">
-          {cuisineFilters.map(filter => (
-            <button
-              key={filter}
-              className={`cuisine-filter ${activeFilter === filter ? 'active' : ''}`}
-              onClick={() => setActiveFilter(filter)}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-        
-        <div className="cuisine-grid">
-          {filteredCuisines.map(cuisine => (
-            <div key={cuisine.id} className="cuisine-card">
-              <img src={cuisine.image} alt={cuisine.name} className="cuisine-image" />
-              <div className="cuisine-content">
-                <h3 className="cuisine-name">{cuisine.name}</h3>
-                <p className="cuisine-description">{cuisine.description}</p>
-                <div className="cuisine-tags">
-                  {cuisine.tags.map((tag, index) => (
-                    <span key={index} className="cuisine-tag">{tag}</span>
-                  ))}
+      <div className="flavor-fusion-tabs">
+        <button 
+          className={`tab-button ${activeTab === 'explore' ? 'active' : ''}`}
+          onClick={() => setActiveTab('explore')}
+        >
+          Explore Cuisines
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'advanced' ? 'active' : ''}`}
+          onClick={() => setActiveTab('advanced')}
+        >
+          Advanced Features
+        </button>
+      </div>
+      
+      {activeTab === 'explore' && (
+        <section className="cuisine-explorer">
+          <h2>Explore Cuisines</h2>
+          
+          <div className="cuisine-filters">
+            {cuisineFilters.map(filter => (
+              <button
+                key={filter}
+                className={`cuisine-filter ${activeFilter === filter ? 'active' : ''}`}
+                onClick={() => setActiveFilter(filter)}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+          
+          <div className="cuisine-grid">
+            {filteredCuisines.map(cuisine => (
+              <div key={cuisine.id} className="cuisine-card">
+                <img src={cuisine.image} alt={cuisine.name} className="cuisine-image" />
+                <div className="cuisine-content">
+                  <h3 className="cuisine-name">{cuisine.name}</h3>
+                  <p className="cuisine-description">{cuisine.description}</p>
+                  <div className="cuisine-tags">
+                    {cuisine.tags.map((tag, index) => (
+                      <span key={index} className="cuisine-tag">{tag}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-      
-      <section className="destination-section">
-        <h2>Culinary Destinations</h2>
-        <div className="destination-map">
-          {/* Map would go here in a real implementation */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            height: '100%',
-            color: '#666'
-          }}>
-            Interactive Map Coming Soon
+            ))}
           </div>
-        </div>
-        
-        <div className="destination-list">
-          {destinations.map(destination => (
-            <div key={destination.id} className="destination-card">
-              <img src={destination.image} alt={destination.name} className="destination-image" />
-              <div className="destination-overlay">
-                <h3 className="destination-name">{destination.name}</h3>
-                <p className="destination-cuisine">{destination.cuisine}</p>
+        </section>
+      )}
+      
+      {activeTab === 'advanced' && (
+        <section className="advanced-features">
+          <h2>Advanced Features</h2>
+          
+          <div className="features-grid">
+            {advancedFeatures.map(feature => (
+              <div key={feature.id} className="feature-card" onClick={() => setActiveTab(feature.id)}>
+                <h3>{feature.name}</h3>
+                <div className="feature-icon">
+                  <i className={`fas fa-${getFeatureIcon(feature.id)}`}></i>
+                </div>
+                <p>{getFeatureDescription(feature.id)}</p>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
+      
+      {advancedFeatures.map(feature => (
+        activeTab === feature.id && (
+          <section key={feature.id} className="feature-section">
+            <button className="back-button" onClick={() => setActiveTab('advanced')}>
+              <i className="fas fa-arrow-left"></i> Back to Features
+            </button>
+            {feature.component}
+          </section>
+        )
+      ))}
     </div>
   );
+};
+
+// Helper function to get feature icon
+const getFeatureIcon = (featureId) => {
+  const icons = {
+    'itinerary': 'map-marked-alt',
+    'personas': 'user-circle',
+    'geo-visualizer': 'globe-americas',
+    'mood-blending': 'palette',
+    'pdf-generator': 'file-pdf',
+    'story-mode': 'book-open'
+  };
+  
+  return icons[featureId] || 'star';
+};
+
+// Helper function to get feature description
+const getFeatureDescription = (featureId) => {
+  const descriptions = {
+    'itinerary': 'Generate a themed multi-day travel plan based on your cultural tastes.',
+    'personas': 'Discover your unique travel persona based on your interests and preferences.',
+    'geo-visualizer': 'See how your cultural tastes map to global destinations.',
+    'mood-blending': 'Combine mood and taste for a unique travel experience.',
+    'pdf-generator': 'Create a personalized travel guide with local phrases and cultural insights.',
+    'story-mode': 'Transform your travel memories into a beautifully crafted story.'
+  };
+  
+  return descriptions[featureId] || '';
 };
 
 export default FlavorFusion;
