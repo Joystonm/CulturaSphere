@@ -1,0 +1,217 @@
+/* FlavorFusion Styles */
+
+.flavor-fusion-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 20px;
+}
+
+.flavor-fusion-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #3498db;
+}
+
+.section-description {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.flavor-fusion-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+}
+
+/* Left Panel - User Tastes */
+.taste-panel {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.taste-panel h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #3498db;
+}
+
+.taste-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.taste-tag {
+  background-color: #f0f7fc;
+  border-radius: 6px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 3px solid #3498db;
+}
+
+.taste-category {
+  font-weight: 600;
+  color: #3498db;
+  margin-right: 0.5rem;
+}
+
+.taste-value {
+  flex-grow: 1;
+}
+
+.remove-taste {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.remove-taste:hover {
+  color: #e74c3c;
+}
+
+.add-taste-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.add-taste-form select,
+.add-taste-form input {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-taste-form button {
+  grid-column: span 2;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.add-taste-form button:hover {
+  background-color: #2980b9;
+}
+
+.regenerate-button,
+.create-story-button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  margin-bottom: 1rem;
+}
+
+.regenerate-button {
+  background-color: #3498db;
+  color: white;
+}
+
+.regenerate-button:hover {
+  background-color: #2980b9;
+}
+
+.create-story-button {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.create-story-button:hover {
+  background-color: #27ae60;
+}
+
+/* Right Panel - Recommendations */
+.recommendations-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #3498db;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.narrative-box {
+  background-color: #f0f7fc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border-left: 4px solid #3498db;
+  margin-bottom: 1rem;
+}
+
+.narrative-box h3 {
+  color: #3498db;
+  margin-bottom: 0.75rem;
+}
+
+.recommendation-section {
+  margin-bottom: 2rem;
+}
+
+.recommendation-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .flavor-fusion-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .taste-panel {
+    order: 1;
+  }
+  
+  .recommendations-panel {
+    order: 2;
+  }
+}

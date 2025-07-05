@@ -7,7 +7,12 @@ import FlavorFusion from './pages/FlavorFusion';
 import TrendWeaver from './pages/TrendWeaver';
 import TasteQuill from './pages/TasteQuill';
 import NotFound from './pages/NotFound';
+
+// Import styles
 import './styles/main.css';
+import './styles/flavor-fusion.css';
+import './styles/trend-weaver.css';
+import './styles/taste-quill.css';
 
 function App() {
   return (

@@ -10,45 +10,73 @@ const qlooClient = axios.create({
   }
 });
 
-// Get related tastes from Qloo API
-exports.getRelatedTastes = async (preferences) => {
+// Get related tastes from Qloo API for FlavorFusion
+exports.getRelatedTastes = async (tastes) => {
   try {
-    // For now, we'll return mock data
-    // In a real implementation, you would make an API call to Qloo
+    console.log('Getting related tastes from Qloo with tastes:', tastes);
     
-    console.log('Getting related tastes from Qloo with preferences:', preferences);
-    
-    // Mock data
-    return [
-      {
-        title: 'Moroccan Tagine',
-        description: 'A slow-cooked savory stew made with meat, vegetables, and aromatic spices.',
-        tags: ['Moroccan', 'Savory', 'Slow-cooked']
-      },
-      {
-        title: 'Korean Bibimbap',
-        description: 'A bowl of warm rice topped with vegetables, meat, egg, and spicy gochujang sauce.',
-        tags: ['Korean', 'Balanced', 'Customizable']
-      }
-    ];
+    // Mock data for now
+    return {
+      destinations: [
+        {
+          title: 'Marrakech, Morocco',
+          description: 'A city of contrasts where ancient traditions meet vibrant contemporary culture, with architecture that inspired Inception.',
+          tags: ['Cultural', 'Atmospheric', 'Photogenic']
+        },
+        {
+          title: 'Tokyo, Japan',
+          description: 'Futuristic cityscape with neon-lit streets and hidden traditional corners, perfect for cyberpunk enthusiasts.',
+          tags: ['Futuristic', 'Vibrant', 'Contrasting']
+        }
+      ],
+      restaurants: [
+        {
+          title: 'The Blind Pig',
+          description: 'Speakeasy-style restaurant with literary-themed cocktails and a menu inspired by dystopian fiction.',
+          tags: ['Immersive', 'Literary', 'Craft Cocktails']
+        }
+      ],
+      playlists: [
+        {
+          title: 'Cinematic Journeys',
+          description: 'Film scores and ambient tracks that evoke the visual style of Christopher Nolan with Coldplay-esque emotional crescendos.',
+          tags: ['Cinematic', 'Emotional', 'Instrumental']
+        }
+      ]
+    };
     
     /* 
     // Actual implementation would look something like this:
-    const response = await qlooClient.post('/recommendations', {
+    const response = await qlooClient.post('/taste-graph/recommendations', {
       taste_profile: {
-        cuisine: preferences.cuisine,
-        dietary_preferences: preferences.dietary,
-        flavor_preferences: preferences.flavors
+        interests: tastes.map(taste => taste.value),
+        categories: tastes.map(taste => taste.category)
       },
-      recommendation_type: 'food',
-      limit: 2
+      recommendation_types: ['travel', 'dining', 'music'],
+      limit: {
+        travel: 2,
+        dining: 1,
+        music: 1
+      }
     });
     
-    return response.data.recommendations.map(rec => ({
-      title: rec.name,
-      description: rec.description,
-      tags: rec.tags
-    }));
+    return {
+      destinations: response.data.travel.map(item => ({
+        title: item.name,
+        description: item.description,
+        tags: item.tags
+      })),
+      restaurants: response.data.dining.map(item => ({
+        title: item.name,
+        description: item.description,
+        tags: item.tags
+      })),
+      playlists: response.data.music.map(item => ({
+        title: item.name,
+        description: item.description,
+        tags: item.tags
+      }))
+    };
     */
   } catch (error) {
     console.error('Error in getRelatedTastes:', error);
@@ -56,54 +84,95 @@ exports.getRelatedTastes = async (preferences) => {
   }
 };
 
-// Get related trends from Qloo API
+// Get related trends from Qloo API for TrendWeaver
 exports.getRelatedTrends = async (filters) => {
   try {
-    // For now, we'll return mock data
     console.log('Getting related trends from Qloo with filters:', filters);
     
-    // Mock data
-    return [
-      {
-        title: 'Handcrafted Ceramics Revival',
-        description: 'A resurgence in appreciation for handmade pottery and ceramic arts.',
-        tags: ['Crafts', 'Artisanal', 'Home Decor']
-      },
-      {
-        title: 'Global Folk Music Fusion',
-        description: 'Traditional folk music elements being incorporated into contemporary music genres.',
-        tags: ['Music', 'Traditional', 'Fusion']
-      }
-    ];
+    // Mock data for now
+    return {
+      trends: [
+        {
+          title: 'Handcrafted Ceramics Revival',
+          description: 'A resurgence in appreciation for handmade pottery and ceramic arts.',
+          tags: ['Crafts', 'Artisanal', 'Home Decor'],
+          growth: '+31% YoY',
+          regions: ['North America', 'Japan', 'Scandinavia']
+        },
+        {
+          title: 'Global Folk Music Fusion',
+          description: 'Traditional folk music elements being incorporated into contemporary music genres.',
+          tags: ['Music', 'Traditional', 'Fusion'],
+          growth: '+24% YoY',
+          regions: ['Global', 'Strong in Eastern Europe']
+        }
+      ]
+    };
   } catch (error) {
     console.error('Error in getRelatedTrends:', error);
     throw new Error('Failed to get related trends from Qloo');
   }
 };
 
-// Get related content from Qloo API
-exports.getRelatedContent = async (content) => {
+// Get related content from Qloo API for TasteQuill
+exports.getRelatedContent = async (storyParams) => {
   try {
-    // For now, we'll return mock data
-    console.log('Getting related content from Qloo:', content.substring(0, 50) + '...');
+    console.log('Getting related content from Qloo for story params:', storyParams);
     
-    // Mock data
+    // Mock data for now
     return [
       {
-        title: 'The Art of Pasta Making',
-        description: 'A journey through Italy\'s pasta traditions and techniques.',
-        category: 'food',
-        tags: ['italian', 'cooking', 'tradition']
+        title: 'The Art of Worldbuilding',
+        description: 'Techniques for creating immersive fictional universes inspired by your favorite creators.',
+        category: 'writing',
+        tags: ['worldbuilding', 'fiction', 'creativity']
       },
       {
-        title: 'Street Food Adventures in Bangkok',
-        description: 'Exploring the vibrant street food scene in Thailand\'s capital.',
-        category: 'food',
-        tags: ['thai', 'street food', 'travel']
+        title: 'Character Development Masterclass',
+        description: 'Learn how to craft memorable characters with depth and authenticity.',
+        category: 'writing',
+        tags: ['characters', 'writing', 'storytelling']
       }
     ];
   } catch (error) {
     console.error('Error in getRelatedContent:', error);
     throw new Error('Failed to get related content from Qloo');
+  }
+};
+
+// Get taste profile for a user
+exports.getUserTasteProfile = async (userId) => {
+  try {
+    console.log('Getting taste profile for user:', userId);
+    
+    // Mock data for now
+    return {
+      topInterests: ['Cyberpunk', 'Ambient Music', 'Minimalist Design', 'Science Fiction', 'Japanese Cuisine'],
+      tasteConnections: [
+        {
+          from: 'Blade Runner',
+          to: 'Neuromancer',
+          strength: 0.87
+        },
+        {
+          from: 'Coldplay',
+          to: 'Sigur Rós',
+          strength: 0.82
+        },
+        {
+          from: 'Christopher Nolan',
+          to: 'Denis Villeneuve',
+          strength: 0.91
+        }
+      ],
+      recommendations: {
+        books: ['Neuromancer', 'Snow Crash', 'The Wind-Up Bird Chronicle'],
+        movies: ['Arrival', 'Ghost in the Shell', 'Lost in Translation'],
+        music: ['Tycho', 'Bonobo', 'Ólafur Arnalds']
+      }
+    };
+  } catch (error) {
+    console.error('Error in getUserTasteProfile:', error);
+    throw new Error('Failed to get user taste profile from Qloo');
   }
 };
