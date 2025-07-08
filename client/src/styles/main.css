@@ -1,4 +1,5 @@
 /* Main CSS Styles */
+@import './trend-weaver.css';
 :root {
   --primary-color: #4a6fa5;
   --secondary-color: #ff6b6b;

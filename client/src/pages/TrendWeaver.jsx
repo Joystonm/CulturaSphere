@@ -1,69 +1,113 @@
 import React, { useState } from 'react';
+import MicroTrendRadar from '../components/trend-weaver/MicroTrendRadar';
+import CrossTasteBrandFitAnalyzer from '../components/trend-weaver/CrossTasteBrandFitAnalyzer';
+import PersonaGrowthSimulator from '../components/trend-weaver/PersonaGrowthSimulator';
+import TrendStrategistAssistant from '../components/trend-weaver/TrendStrategistAssistant';
+import CulturalTimeMachine from '../components/trend-weaver/CulturalTimeMachine';
 
 const TrendWeaver = () => {
-  const [activeCategory, setActiveCategory] = useState('Music');
+  const [activeFeature, setActiveFeature] = useState('intro');
   
-  const categories = ['Music', 'Art', 'Fashion', 'Film', 'Literature'];
-  
-  const trends = [
-    {
-      id: 1,
-      title: 'Neo-Soul Revival',
-      description: 'A resurgence of soul music with modern production techniques and classic vocal stylings.',
-      image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      category: 'Music',
-      date: '2023-06-15'
-    },
-    {
-      id: 2,
-      title: 'Digital Surrealism',
-      description: 'AI-generated artwork that blends surrealist concepts with digital manipulation.',
-      image: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      category: 'Art',
-      date: '2023-05-22'
-    },
-    {
-      id: 3,
-      title: 'Sustainable Luxury',
-      description: 'High-end fashion brands embracing eco-friendly materials and ethical production.',
-      image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      category: 'Fashion',
-      date: '2023-07-03'
-    },
-    {
-      id: 4,
-      title: 'Micro-Budget Cinema',
-      description: 'Independent filmmakers creating compelling narratives with minimal resources.',
-      image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      category: 'Film',
-      date: '2023-04-18'
-    },
-    {
-      id: 5,
-      title: 'Climate Fiction',
-      description: 'Literary works exploring the impact of climate change on society and individuals.',
-      image: 'https://images.unsplash.com/photo-1476275466078-4007374efbbe?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-      category: 'Literature',
-      date: '2023-06-29'
-    }
+  const features = [
+    { id: 'intro', name: 'Overview' },
+    { id: 'microtrend-radar', name: 'Microtrend Radar' },
+    { id: 'brand-fit-analyzer', name: 'Brand Fit Analyzer' },
+    { id: 'persona-growth', name: 'Persona Growth Simulator' },
+    { id: 'trend-strategist', name: 'AI Trend Strategist' },
+    { id: 'time-machine', name: 'Cultural Time Machine' }
   ];
   
-  const insights = [
-    {
-      id: 1,
-      title: 'The Intersection of Technology and Traditional Art Forms',
-      date: 'July 10, 2023',
-      content: 'As digital tools become more accessible, we\'re seeing a fascinating blend of traditional artistic techniques with cutting-edge technology. This fusion is creating new aesthetic languages and challenging our perception of what constitutes "authentic" art.'
-    },
-    {
-      id: 2,
-      title: 'Global Influences in Local Music Scenes',
-      date: 'June 28, 2023',
-      content: 'The internet has accelerated the cross-pollination of musical styles across geographical boundaries. Local music scenes are increasingly incorporating elements from distant cultures, resulting in rich, hybrid genres that reflect our interconnected world.'
+  const renderActiveFeature = () => {
+    switch (activeFeature) {
+      case 'microtrend-radar':
+        return <MicroTrendRadar />;
+      case 'brand-fit-analyzer':
+        return <CrossTasteBrandFitAnalyzer />;
+      case 'persona-growth':
+        return <PersonaGrowthSimulator />;
+      case 'trend-strategist':
+        return <TrendStrategistAssistant />;
+      case 'time-machine':
+        return <CulturalTimeMachine />;
+      case 'intro':
+      default:
+        return renderIntro();
     }
-  ];
+  };
   
-  const filteredTrends = trends.filter(trend => trend.category === activeCategory);
+  const renderIntro = () => {
+    return (
+      <div className="trend-weaver-intro">
+        <div className="intro-content">
+          <h2>Welcome to TrendWeaver</h2>
+          <p className="intro-description">
+            Connect with cultural trends across music, art, fashion, and entertainment.
+            Discover insights, analyze patterns, and identify opportunities using our
+            advanced cultural intelligence tools.
+          </p>
+          
+          <div className="feature-grid">
+            <div className="feature-card" onClick={() => setActiveFeature('microtrend-radar')}>
+              <h3>Real-Time Microtrend Radar</h3>
+              <p>Detect emerging microtrends before they go mainstream</p>
+            </div>
+            
+            <div className="feature-card" onClick={() => setActiveFeature('brand-fit-analyzer')}>
+              <h3>Cross-Taste Brand Fit Analyzer</h3>
+              <p>Discover where your brand best fits in the cultural landscape</p>
+            </div>
+            
+            <div className="feature-card" onClick={() => setActiveFeature('persona-growth')}>
+              <h3>Persona Growth Simulator</h3>
+              <p>Model how customer personas evolve over time based on taste transitions</p>
+            </div>
+            
+            <div className="feature-card" onClick={() => setActiveFeature('trend-strategist')}>
+              <h3>AI Trend Strategist Assistant</h3>
+              <p>Get consultant-level insights using Qloo + Groq</p>
+            </div>
+            
+            <div className="feature-card" onClick={() => setActiveFeature('time-machine')}>
+              <h3>Cultural Time Machine</h3>
+              <p>Rewind or fast-forward cultural trends to understand context</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="trend-highlights">
+          <h3>Trending Now</h3>
+          <div className="trend-cards">
+            <div className="trend-card">
+              <div className="trend-image" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80)' }}></div>
+              <div className="trend-content">
+                <h4>Neo-Soul Revival</h4>
+                <p>A resurgence of soul music with modern production techniques and classic vocal stylings.</p>
+                <span className="trend-category">Music</span>
+              </div>
+            </div>
+            
+            <div className="trend-card">
+              <div className="trend-image" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80)' }}></div>
+              <div className="trend-content">
+                <h4>Digital Surrealism</h4>
+                <p>AI-generated artwork that blends surrealist concepts with digital manipulation.</p>
+                <span className="trend-category">Art</span>
+              </div>
+            </div>
+            
+            <div className="trend-card">
+              <div className="trend-image" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80)' }}></div>
+              <div className="trend-content">
+                <h4>Sustainable Luxury</h4>
+                <p>High-end fashion brands embracing eco-friendly materials and ethical production.</p>
+                <span className="trend-category">Fashion</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
   
   return (
     <div className="trend-weaver-container">
@@ -71,66 +115,24 @@ const TrendWeaver = () => {
         <h1 className="trend-weaver-title">TrendWeaver</h1>
         <p className="trend-weaver-description">
           Connect with cultural trends across music, art, fashion, and entertainment.
-          Stay ahead of the curve with personalized trend insights.
         </p>
       </header>
       
-      <div className="trend-categories">
-        {categories.map(category => (
+      <div className="trend-weaver-navigation">
+        {features.map(feature => (
           <button
-            key={category}
-            className={`trend-category ${activeCategory === category ? 'active' : ''}`}
-            onClick={() => setActiveCategory(category)}
+            key={feature.id}
+            className={`nav-item ${activeFeature === feature.id ? 'active' : ''}`}
+            onClick={() => setActiveFeature(feature.id)}
           >
-            {category}
+            {feature.name}
           </button>
         ))}
       </div>
       
-      <div className="trend-grid">
-        {filteredTrends.map(trend => (
-          <div key={trend.id} className="trend-item">
-            <img src={trend.image} alt={trend.title} className="trend-image" />
-            <div className="trend-content">
-              <h3 className="trend-title">{trend.title}</h3>
-              <p className="trend-description">{trend.description}</p>
-              <div className="trend-meta">
-                <span className="trend-date">{trend.date}</span>
-                <span className="trend-category-tag">{trend.category}</span>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="trend-weaver-content">
+        {renderActiveFeature()}
       </div>
-      
-      <section className="trend-chart-section">
-        <h2>Trend Analysis</h2>
-        <div className="trend-chart">
-          {/* Chart would go here in a real implementation */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            height: '100%',
-            color: '#666'
-          }}>
-            Interactive Trend Chart Coming Soon
-          </div>
-        </div>
-      </section>
-      
-      <section className="trend-insights">
-        <h2>Cultural Insights</h2>
-        {insights.map(insight => (
-          <div key={insight.id} className="insight-card">
-            <div className="insight-header">
-              <h3 className="insight-title">{insight.title}</h3>
-              <span className="insight-date">{insight.date}</span>
-            </div>
-            <p className="insight-content">{insight.content}</p>
-          </div>
-        ))}
-      </section>
     </div>
   );
 };
