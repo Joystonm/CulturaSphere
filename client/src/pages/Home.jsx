@@ -127,14 +127,15 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="feature-card taste-quill-card">
+          {/* <div className="feature-card taste-quill-card">
             <div className="feature-icon">✒️</div>
             <h2>TasteQuill</h2>
             <p>AI-generated stories crafted in the style of your favorite creators and genres.</p>
             <Link to="/taste-quill" className="feature-link">
               Generate Stories
             </Link>
-          </div>
+          </div> */}
+          
         </section>
       )}
     </div>

@@ -121,7 +121,7 @@ const FlavorFusion = () => {
           className={`tab-button ${activeTab === 'advanced' ? 'active' : ''}`}
           onClick={() => setActiveTab('advanced')}
         >
-          Advanced Features
+           Features
         </button>
       </div>
       
@@ -162,7 +162,7 @@ const FlavorFusion = () => {
       
       {activeTab === 'advanced' && (
         <section className="advanced-features">
-          <h2>Advanced Features</h2>
+          <h2> Features</h2>
           
           <div className="features-grid">
             {advancedFeatures.map(feature => (
