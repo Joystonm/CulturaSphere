@@ -5,15 +5,6 @@ CulturaSphere is a platform that connects people through cultural experiences, t
 ## Features
 
 - **FlavorFusion**: Discover culinary connections and explore new tastes based on your preferences.
-  - Cultural Itinerary Composer (LLM-Powered)
-  - Taste-Aligned Travel Personas
-  - Taste-to-Geo Visualizer
-  - Dynamic Dining Moodboard
-  - Live Taste Trip Simulator
-  - Local Vibes Decoder
-  - Mood Blending Engine
-  - Travel PDF Generator
-  - Post-Trip Story Mode
 - **TrendWeaver**: Connect with cultural trends across music, art, fashion, and entertainment.
 
 ## Project Structure
@@ -146,6 +137,5 @@ CulturaSphere/
 
 - Node.js
 - Express
-- MongoDB (optional)
 - Groq API (for LLM capabilities)
 - Qloo API (for taste recommendations)
